@@ -1,12 +1,15 @@
-import { redirect } from "next/dist/server/api-utils";
-import addMessage from "@/lib/messages";
+import { redirect } from "next/navigation";
+import {addMessage} from "@/lib/messages";
+import { revalidatePath } from "next/cache";
 
 export default function NewMessagePage(){
 
     async function createMessage(formData) { // form server action 
         'use server';
         const message = formData.get("message");
+        // console.log("MSG: ",message);
         addMessage(message); // lib sql INSERT INTO 
+        // revalidatePath();
         redirect('/messages');
     }
 
